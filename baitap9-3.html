@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Bài tập 9.2 : Push & Merge Code</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    table { border-collapse: collapse; width: 100%; max-width: 700px; }
+    th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
+    th { background: #f0f0f0; font-weight: bold; }
+    img { width: 80px; height: 80px; object-fit: contain; }
+    input[type="number"] { width: 60px; padding: 4px; text-align: center; }
+  </style>
+</head>
+<body>
+
+<h2>Shopping Cart</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Quantity</th>
+    </tr>
+  </thead>
+  <tbody id="cart-body"></tbody>
+</table>
+
+//Create baitap9-3.html
+
+<script>
+  // Nhập data vào localStorage
+  let cart = JSON.parse(localStorage.getItem("cart")) || [
+    { name: "Iphone 15",   price: 2000, img: "img/iphone-15.webp",  qty: 1 },
+    { name: "Samsung S24", price: 1500, img: "img/samsung-s24.webp", qty: 2 }
+  ];
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  // Hiển thị data trên table
+  function renderCart() {
+    let html = "";
+    cart.forEach((item, index) => {
+      html += `
+        <tr>
+          <td><img src="${item.img}" alt="${item.name}"></td>
+          <td>${item.name}</td>
+          <td>${item.price}</td>
+          <td>
+            <input
+              type="number"
+              value="${item.qty}"
+              min="1"
+              onchange="updateQty(${index}, this.value)"
+            >
+          </td>
+        </tr>`;
+    });
+    document.getElementById("cart-body").innerHTML = html;
+  }
+
+  // Update số lượng
+  function updateQty(index, newQty) {
+    cart[index].qty = Number(newQty);
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
+
+  renderCart();
+</script>
+
+</body>
+</html>
